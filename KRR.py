@@ -29,7 +29,7 @@ class GenerateData:
     
 from matplotlib.lines import Line2D
 class KernelRidgeRegression:
-    def __init__(self, lambda_param=1.0, gamma=1e-3, learning_rate=0.01, loss_target=0,initial_alpha=None,ite_max=500):
+    def __init__(self, lambda_param=1.0, gamma=1e-3, learning_rate=0.01, loss_target=0,initial_alpha=None,ite_max=5000):
         self.lambda_param = lambda_param
         self.gamma = gamma
         self.learning_rate = learning_rate
@@ -172,10 +172,9 @@ class Operators:
         self.n= K.shape[0]
         self.lambda_param=lambda_param 
         self.K = K 
-        self.cond_T= ((1/n * K.T@K + self.lambda_param * K))
+        self.cond_T= ((1/self.n * K.T@K + self.lambda_param * K))
 
-        n= K.shape[0]
-        eigenvals,_ = np.linalg.eigh(1/n * K.T@K + self.lambda_param * K)
+        eigenvals,_ = np.linalg.eigh(1/self.n * K.T@K + self.lambda_param * K)
         L = np.max(eigenvals)
         self.L=L
          
@@ -190,7 +189,7 @@ class Operators:
 
 n_samples=500
 n_features=30
-flip_y=0.1
+flip_y=1
 
 Data= GenerateData(n_samples,n_features,flip_y)
 x,y = Data.make_classification()
@@ -199,7 +198,7 @@ X_train, X_test, y_train, y_test = Data.split_data(x, y, test_size=0.2)
 
 lambda_param=0
 gamma=0.1
-loss_target = 0.5
+loss_target = 0.01
 
 Model = KernelRidgeRegression(lambda_param=lambda_param, gamma=gamma,initial_alpha=np.zeros(X_train.shape[0])) 
 Op = Operators(Model.rbf_kernel(X_train,X_train),lambda_param)
@@ -300,7 +299,7 @@ accuracies = []
 test_loss = []
 training_loss =[]
 traini_accuracy=[]
-loss_target = 0.8
+loss_target = 0.3
 
 initial_alpha = np.random.uniform(-1, 1,X_train.shape[0])
 

@@ -4,15 +4,16 @@ from scipy.spatial.distance import cdist
 import matplotlib.pyplot as plt
 
 class Modele: 
-    def __init__(self, lambda_param: float = 1.0):
+    def __init__(self, lambda_param: float = 1.0,gamma: float = 25):
         self.lambda_param = lambda_param
+        self.gamma = gamma
 
-    def kernel(self, X: np.ndarray, Z: np.ndarray, kernel_type: str = 'rbf', gamma: float = 1/(30), degree: int = 3) -> np.ndarray:
+    def kernel(self, X: np.ndarray, Z: np.ndarray, kernel_type: str = 'rbf', gamma: float = 25, degree: int = 3) -> np.ndarray:
         """Compute the kernel matrix"""
         if kernel_type == 'linear':
             return X @ Z.T
         elif kernel_type == 'rbf':
-            return np.exp(-gamma * cdist(X, Z, 'sqeuclidean'))
+            return np.exp(-self.gamma * cdist(X, Z, 'sqeuclidean'))
         elif kernel_type == 'poly':
             return (X @ Z.T + 1)**degree
         
@@ -54,8 +55,8 @@ class Modele:
         mu = np.min(eigenvals)
         return L, mu
     
-    def alpha_opt(self, X: np.ndarray, y: np.ndarray) -> np.ndarray:
+    def alpha_opt(self, X: np.ndarray, y: np.ndarray, gamma: float = 30) -> np.ndarray:
         """Compute the optimal alpha for the training set"""
         n = X.shape[0]
-        alpha = np.linalg.solve(self.kernel(X, X) + n * self.lambda_param * np.identity(n), y)
+        alpha = np.linalg.solve(self.kernel(X, X,gamma=gamma) + n * self.lambda_param * np.identity(n), y)
         return alpha

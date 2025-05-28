@@ -1,50 +1,48 @@
-# TFE
+# Thesis Experiments Code Repository
 
-KRR_notebook: new version of KRR + notebook form
+This repository contains the source code, configuration files, and scripts used to conduct the experiments described in the Master's thesis:
 
-CKN-MNIST: KRR on the dataset CKN-MNIST
+    "Generalization Performance with Non-Constant Stepsizes"
+    Author: Adeline Colson
+    Institution: École polytechnique de Louvain
+    Academic Year: 2024–2025
 
-New version: Modele implement the KRR, Optimiseur implement the different methods, Experiments does the experiments
+This codebase supports the experimental results presented in the thesis and reproduces figures and evaluations referenced throughout the document.
 
+# Repository structure
+## Folder Experiments/
 
-New update: 
-# Experiments
+- **`Modele.py`**  
+  Implements the KRR model used in the experiments.
 
-This directory contains all code needed to reproduce the figures presented in the report, except for the introductory quadratic example.
+- **`Optimiseur.py`**  
+  Contains all the optimization algorithms presented in the thesis.
 
-## Structure
-
-- **`model/`**  
-  Implements the models used in the experiments.
-
-- **`optimizer/`**  
-  Contains the optimization algorithms.
-
-- **`algorithm/`**  
+- **`Algo.ipynb`**  
   Runs and evaluates the optimization algorithms on synthetic classification datasets (see figures from Chapter 4).
 
-- **`figures/`**  
+- **`Figures.ipynb`**  
   Uses saved `.npy` files to generate the plots shown in Chapter 5.
 
-- **`evolution/`**  
-  Generates `.npy` files that track the training progress (e.g., loss, gradient norm) over time.
+- **`Evolution.ipynb`**  
+  Generates `.npy` files that track the training progress (e.g., training function, gradient norm, test accuracy) over time.
 
-## Additional Folder
+## Additional File
 
-- **`quadratic/`**   
+- **`Quadratic.ipynb`**   
   Contains tests of optimization methods on a simple quadratic function and generates the figures used in the introduction.
 
-- **`Kernel_tuning/`**  
-  Contains Kernel tuning for the CKN-MNIST dataset.
+- **`Kernel_tuning.ipynb`**  
+  Contains the tuning of the RBF parameter for the CKN-MNIST dataset.
 
-- **`Algorithmd/`**  
-  Contains tests on constant gradient descent on the CKN-MNIST dataset.
+- **`Algorithms.ipynb`**  
+  Contains experiments on constant gradient descent on the CKN-MNIST dataset.
 
-- **`New_dataset/`**  
+- **`New_dataset.ipynb`**  
   Contains same expirements as in kernel_tuning and Algorithms, but for the a4a dataset.
 
-- **`Model/`**  
+- **`Modele.ipynb`**  
   Implements the models used in the experiments.
 
-- **`Optimizer/`**  
-  Contains the optimization algorithms.
+- **`Optimiseur.ipynb`**  
+  Contains the optimization algorithms presented in the thesis.

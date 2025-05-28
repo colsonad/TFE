@@ -2,9 +2,9 @@ import numpy as np
 from sklearn.metrics import accuracy_score
 from scipy.spatial.distance import cdist
 from numba import njit,prange
-import matplotlib.pyplot as plt
-#import sympy as sp
 
+
+# use of numba to speed up the computation of the kernel and the loss function
 @njit(parallel=True)
 def rbf_kernel(X, Z, gamma):
     n1, d1 = X.shape
@@ -89,6 +89,8 @@ def fast_compute_all(X,x,y,y_,alphas,lambda_param,gamma):
     return loss, test_loss, norm, train_accuracy, accuracy
 
 class Modele: 
+    """Base class for kernel models"""
+
     def __init__(self, lambda_param: float = 1.0,gamma: float = 25):
         self.lambda_param = lambda_param
         self.gamma = gamma
@@ -100,15 +102,11 @@ class Modele:
         elif kernel_type == 'rbf':
             return np.exp(-self.gamma * cdist(X, Z, 'sqeuclidean'))
         elif kernel_type == 'poly':
-            #return (X @ Z.T + 1)**degree
             return rbf_kernel(X, Z, self.gamma)
         
     def loss_function(self, X: np.ndarray, y: np.ndarray, alpha: np.ndarray) -> float:
         """Calculate the training loss function value"""
-        # n = X.shape[0]
         K = self.kernel(X, X)
-        # residual = y - K @ alpha
-        # loss = (residual.T @ residual) / (2 * n) + (self.lambda_param / 2) * (alpha.T @ K @ alpha)
         return loss(K, y, alpha, self.lambda_param)
     
     def predictions(self, X_train: np.ndarray, X_test: np.ndarray, alpha: np.ndarray) -> np.ndarray:
@@ -117,14 +115,11 @@ class Modele:
     
     def accuracy(self, X_train: np.ndarray, X_test: np.ndarray, y: np.ndarray, alpha: np.ndarray) -> float:
         """Calculate the accuracy"""
-        #return accuracy_score(y, self.predictions(X_train, X_test, alpha))
         K = self.kernel(X_test, X_train)
         return accuracy(y, K, alpha)
     
     def test_loss_function(self, X_train: np.ndarray, X_test: np.ndarray, y: np.ndarray, alpha: np.ndarray) -> float:
         """Calculate the test loss function value"""
-        #n = X_test.shape[0]
-        #loss = 1 / (2 * n) * np.linalg.norm(y - self.kernel(X_test, X_train) @ alpha)**2 + (self.lambda_param / 2) * np.linalg.norm(self.kernel(X_train, X_train) @ alpha)**2
         K_test = self.kernel(X_test, X_train)
         K_train = self.kernel(X_train, X_train)
         return test_loss(K_train,K_test, y, alpha, self.lambda_param)
@@ -133,8 +128,6 @@ class Modele:
         """Calculate the gradient of the loss function"""
         n = X.shape[0]
         K = self.kernel(X, X)
-        # grad = K @ ((1 / n * K + self.lambda_param * np.identity(n)) @ alpha - 1 / n * y)
-        # return grad
         return gradient(K, y, alpha, self.lambda_param)
         
 
@@ -146,16 +139,10 @@ class Modele:
         L = np.max(eigenvals)
         mu = np.min(eigenvals)
         return L, mu
-     # H = sp.Matrix(K @ ((1 / n * K + self.lambda_param * np.identity(n)))) #Hessian
-            # eigenvals = [val.evalf(50) for val in H.eigenvals()]
-            # L = np.max(eigenvals)
-            # mu = np.min(eigenvals)
-            # return L, mu
     
     def alpha_opt(self, X: np.ndarray, y: np.ndarray, gamma: float = 30) -> np.ndarray:
         """Compute the optimal alpha for the training set"""
         n = X.shape[0]
-        #alpha = np.linalg.solve(self.kernel(X, X,gamma=gamma) + n * self.lambda_param * np.identity(n), y)
         alpha = np.dot(np.linalg.pinv(self.kernel(X, X, gamma=gamma) + n * self.lambda_param * np.identity(n)), y)
 
         return alpha

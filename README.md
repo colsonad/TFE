@@ -31,6 +31,20 @@ This directory contains all code needed to reproduce the figures presented in th
 
 ## Additional Folder
 
-- **`quadratic/`** *(located outside this folder)*  
+- **`quadratic/`**   
   Contains tests of optimization methods on a simple quadratic function and generates the figures used in the introduction.
 
+- **`Kernel_tuning/`**  
+  Contains Kernel tuning for the CKN-MNIST dataset.
+
+- **`Algorithmd/`**  
+  Contains tests on constant gradient descent on the CKN-MNIST dataset.
+
+- **`New_dataset/`**  
+  Contains same expirements as in kernel_tuning and Algorithms, but for the a4a dataset.
+
+- **`Model/`**  
+  Implements the models used in the experiments.
+
+- **`Optimizer/`**  
+  Contains the optimization algorithms.

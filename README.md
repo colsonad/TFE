@@ -9,6 +9,9 @@ This repository contains the source code, configuration files, and scripts used 
 
 This codebase supports the experimental results presented in the thesis and reproduces figures and evaluations referenced throughout the thesis.
 
+To run the experiments, first download the CKN-MNIST dataset:
+https://pascal.inrialpes.fr/data2/mairal/data
+
 # Repository structure
 ## Folder Experiments/
 

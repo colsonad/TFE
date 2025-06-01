@@ -7,7 +7,7 @@ This repository contains the source code, configuration files, and scripts used 
     Institution: École polytechnique de Louvain
     Academic Year: 2024–2025
 
-This codebase supports the experimental results presented in the thesis and reproduces figures and evaluations referenced throughout the document.
+This codebase supports the experimental results presented in the thesis and reproduces figures and evaluations referenced throughout the thesis.
 
 # Repository structure
 ## Folder Experiments/
